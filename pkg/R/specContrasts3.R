@@ -1,4 +1,5 @@
 # change because NA not in the creating of the SDA data set
+# change 7.9.2021 - consider the option that leaders are already written as probabilities
 
 specContrasts <- function(rs,rc,j){
     ## rs = leader of whole sample (as symObject)
@@ -6,8 +7,14 @@ specContrasts <- function(rs,rc,j){
   mj = length(rs[[j]])  #components + 1
   sizers = rs[[j]][mj]
   sizerc = rc[[j]][mj]
-  prs = rs[[j]][-mj]/sizers # as probability, last is N
-  prc = rc[[j]][-mj]/sizerc # as probability, last is N
+  prs = rs[[j]][-mj]
+  if(sum(prs)!=1){
+    prs = prs/sizers # as probability, last is N
+  }
+  prc = rc[[j]][-mj]
+  if(sum(prc)!=1){
+    prc = prc/sizerc # as probability, last is N
+  }
   spec = sum(abs(prs-prc))/2
   contr = prc/prs
   contr = sapply(contr,FUN = function(x)return(ifelse(!is.na(x)&x<1,-x^(-1),x)))
