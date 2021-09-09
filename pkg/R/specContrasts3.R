@@ -8,16 +8,16 @@ specContrasts <- function(rs,rc,j){
   sizers = rs[[j]][mj]
   sizerc = rc[[j]][mj]
   prs = rs[[j]][-mj]
-  if(sum(prs)!=1){
+  if(abs(sum(prs)-1)>10^-8){ ## SE PROBLEM - KAKO RESNO UGOTOVITI, ALI IMAMO PROBABILITIJE???
     prs = prs/sizers # as probability, last is N
   }
   prc = rc[[j]][-mj]
-  if(sum(prc)!=1){
+  if(abs(sum(prs)-1)>10^-8){
     prc = prc/sizerc # as probability, last is N
   }
   spec = sum(abs(prs-prc))/2
   contr = prc/prs
   contr = sapply(contr,FUN = function(x)return(ifelse(!is.na(x)&x<1,-x^(-1),x)))
-  return(list(specificity = spec, constrasts = contr))
+  return(list(specificity = spec, contrasts = contr))
 }
   
